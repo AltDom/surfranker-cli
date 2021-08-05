@@ -12,18 +12,29 @@ const [, , tour, flag1, flag2] = process.argv;
   const response = await fetchData(tour, flag1, flag2);
   if (response.error) return spinner.fail(response.error);
   spinner.succeed();
-  if (Array.isArray(response.athletes)) {
-    response.athletes.map((athlete, index) => {
+  if (response.athletes) {
+    response.athletes.map((athlete) => {
       if (athlete.indexOf('1. ') !== 0) {
-        if (response.throwaways && parseInt(athlete.substring(0, athlete.indexOf('.'))) > index + 1)
+        if (!athlete.substring(athlete.indexOf('(') + 1, athlete.indexOf(')')))
+          console.log(athlete);
+        else if (
+          response.throwaways &&
+          athlete.substring(0, athlete.indexOf('.')) <
+            athlete.substring(athlete.indexOf('(') + 1, athlete.indexOf(')'))
+        )
           console.log(chalk.red(athlete));
         else if (
           response.throwaways &&
-          parseInt(athlete.substring(0, athlete.indexOf('.'))) < index + 1
+          athlete.substring(0, athlete.indexOf('.')) >
+            athlete.substring(athlete.indexOf('(') + 1, athlete.indexOf(')'))
         )
           console.log(chalk.blue(athlete));
         else console.log(athlete);
       } else console.log(chalk.yellow(athlete));
     });
-  } else console.log(response.athletes);
+  } else
+    response.athletes.map((athlete) => {
+      if (athlete.indexOf('1. ') !== 0) console.log(athlete);
+      else console.log(chalk.yellow(athlete));
+    });
 })();

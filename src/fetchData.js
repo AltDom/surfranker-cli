@@ -1,9 +1,9 @@
 'use strict';
 const puppeteer = require('puppeteer');
 const parseFlags = require('./parseFlags');
-const fetchData = async (tour, flag1 = '', flag2 = '') => {
+const fetchData = async (_tour, _flag1 = '', _flag2 = '') => {
   try {
-    const queryData = await parseFlags(tour, flag1, flag2);
+    const queryData = await parseFlags(_tour, _flag1, _flag2);
     if (queryData.error !== null) return { error: queryData.error };
     const browser = await puppeteer.launch({
       headless: true,
@@ -14,49 +14,97 @@ const fetchData = async (tour, flag1 = '', flag2 = '') => {
     await page.goto(
       `https://www.worldsurfleague.com/athletes/tour/${queryData.tour}?${queryData.region}year=${queryData.year}`
     );
-    const response = await page.evaluate(async (throwNumber = queryData.numberOfEventsToThrow) => {
-      const athlete_array = [];
-      const athlete_table = await document.querySelector('.table-wrap--athletes tbody');
-      if (!athlete_table) return { error: 'No data is available using that query.' };
-      else if (throwNumber === 0) {
-        for (let i = 0, row; (row = athlete_table.rows[i]); i++) {
-          const athlete_rank = await row.querySelector('.athlete-rank').innerHTML;
-          const athlete_name = await row.querySelector('.athlete-name').innerHTML;
+    const response = await page.evaluate(async (_throwNumber = queryData.numberOfEventsToThrow) => {
+      const athleteArray = [];
+      const athleteTable = document.querySelector('.table-wrap--athletes tbody');
+      if (!athleteTable) return { error: 'No data is available using that query.' };
+      else if (_throwNumber === 0) {
+        for (let i = 0, row; (row = athleteTable.rows[i]); i++) {
+          const athleteRank = await row.querySelector('.athlete-rank').innerHTML;
+          const athleteName = await row.querySelector('.athlete-name').innerHTML;
           const athlete_points = await row.querySelector('.tour-points').innerHTML;
-          athlete_array.push(`${athlete_rank}. ${athlete_name} - ${athlete_points}pts`);
+          athleteArray.push(`${athleteRank}. ${athleteName} - ${athlete_points}pts`);
         }
-        return { athlete_array };
+        return { athleteArray };
       } else {
-        for (let i = 0, row; (row = athlete_table.rows[i]); i++) {
-          let athlete_points_array = [];
-          let totalPoints;
-          const athlete_rank = await row.querySelector('.athlete-rank').innerHTML;
-          const athlete_name = await row.querySelector('.athlete-name').innerHTML;
-          const athlete_event_places = await row.querySelectorAll('.athlete-event-place');
-          await athlete_event_places.forEach((possiblePoints) => {
+        const table_head = document.querySelector('.table-wrap--athletes thead');
+        const numCompletedEvents = table_head.querySelectorAll('.athlete-event-place a').length;
+        const numEvents = table_head.querySelectorAll('.athlete-event-place').length;
+        const numEventsRemaining = numEvents - numCompletedEvents;
+        for (let i = 0, row; (row = athleteTable.rows[i]); i++) {
+          let athleteEventPointsArray = [];
+          let numEventsAthleteMissedAndRemaining = 0;
+          let athleteTotalPoints;
+          const athleteRank = await row.querySelector('.athlete-rank').innerHTML;
+          const athleteName = await row.querySelector('.athlete-name').innerHTML;
+          const athleteTourPoints = await row.querySelector('.tour-points').innerHTML;
+          const athleteEventPlaces = await row.querySelectorAll('.athlete-event-place');
+          await athleteEventPlaces.forEach((possiblePoints) => {
             const eventPoints = possiblePoints.querySelector('span').innerHTML.replace(/,/g, '');
-            if (eventPoints !== '-') athlete_points_array.push(parseInt(eventPoints));
+            if (eventPoints === '-') numEventsAthleteMissedAndRemaining++;
+            else athleteEventPointsArray.push(parseInt(eventPoints));
           });
-          if (athlete_points_array.length - throwNumber <= 0) totalPoints = 0;
+          if (numEventsAthleteMissedAndRemaining - numEventsRemaining >= _throwNumber)
+            athleteTotalPoints = athleteTourPoints.replace(/,/g, '');
           else {
-            athlete_points_array
+            athleteEventPointsArray
               .sort((a, b) => b - a)
-              .splice(athlete_points_array.length - throwNumber, throwNumber);
-            totalPoints = athlete_points_array.reduce((a, b) => a + b);
+              .splice(athleteEventPointsArray.length - _throwNumber, _throwNumber);
+            athleteTotalPoints = athleteEventPointsArray.reduce((a, b) => a + b);
           }
-          athlete_array.push(`${athlete_rank}. ${athlete_name} - ${totalPoints}pts`);
+          athleteArray.push(`${athleteRank}. ${athleteName} - ${athleteTotalPoints}pts`);
         }
-        athlete_array.sort(
-          (a, b) =>
-            b.substring(b.lastIndexOf(' ') + 1, b.lastIndexOf('pts')) -
-            a.substring(a.lastIndexOf(' ') + 1, a.lastIndexOf('pts'))
-        );
-        return { athlete_array };
+        athleteArray
+          .sort(
+            (a, b) =>
+              b.substring(b.lastIndexOf(' ') + 1, b.lastIndexOf('pts')) -
+              a.substring(a.lastIndexOf(' ') + 1, a.lastIndexOf('pts'))
+          )
+          .forEach((athlete, index, array) => {
+            if (index !== 0) {
+              if (
+                athlete.substring(athlete.indexOf('-') + 1, athlete.lastIndexOf('pts')) ===
+                athleteArray[index - 1].substring(
+                  athleteArray[index - 1].indexOf('-') + 1,
+                  athleteArray[index - 1].lastIndexOf('pts')
+                )
+              ) {
+                array[index] = `${athleteArray[index - 1].substring(
+                  0,
+                  athleteArray[index - 1].indexOf('.')
+                )}${athlete.substring(
+                  athlete.indexOf('.'),
+                  Array.from(athlete).length
+                )} (${athlete.substring(0, athlete.indexOf('.'))})`;
+              } else if (parseInt(athlete.substring(0, athlete.indexOf('.'))) !== index + 1) {
+                array[index] = `${index + 1}${athlete.substring(
+                  athlete.indexOf('.'),
+                  Array.from(athlete).length
+                )} (${athlete.substring(0, athlete.indexOf('.'))})`;
+              }
+            } else {
+              if (athlete.substring(0, athlete.indexOf('.')) != '1') {
+                array[index] = `1${athlete.substring(
+                  athlete.indexOf('.'),
+                  Array.from(athlete).length
+                )} (${athlete.substring(0, athlete.indexOf('.'))})`;
+              }
+            }
+          });
+        athleteArray.forEach((athlete, index, array) => {
+          if (
+            athlete.substring(0, athlete.indexOf('.')) ===
+            athlete.substring(athlete.indexOf('(') + 1, athlete.indexOf(')'))
+          ) {
+            array[index] = `${athlete.substring(0, athlete.indexOf(athlete.slice(-4)))}`;
+          }
+        });
+        return { athleteArray };
       }
     }, queryData.numberOfEventsToThrow);
     await browser.close();
     return {
-      athletes: response.athlete_array,
+      athletes: response.athleteArray,
       throwaways: queryData.numberOfEventsToThrow !== 0 ? true : false,
       error: response.error
     };
