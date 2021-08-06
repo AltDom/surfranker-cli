@@ -2,7 +2,7 @@
 ### Making surf rankings just that little bit franker.
 
 <p align="center">
-  <img  src="https://media.giphy.com/media/LqaiJK6aYZPG11qKrz/giphy.gif" width="80%">
+  <img  src="https://user-images.githubusercontent.com/48492083/128520057-5c97484c-ff9c-4ebc-808a-175bca906b2a.mov" width="80%">
 </p>
 
 Retrieve live **World Surf League** tour rankings for free via the Terminal. **Championship Tours**, **Challenger Series**, **Big Wave Tours**, **Qualifying Series**, **Junior Tours** & **Longboard Tours** all supported. **Throwaway Event Filtering** supported where applicable.
