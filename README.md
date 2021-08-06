@@ -18,8 +18,7 @@ https://user-images.githubusercontent.com/48492083/128521067-e35f0cdc-8f28-4488-
 
 ### Challenger Series (WCS & MCS - supported in Version 2 after the first contest in September 2021)
 * View the current Womens & Mens CS rankings using commands `surfranker mcs` & `surfranker wcs`.
-* Calculate, sort & view the current Womens & Mens CS rankings with 1 or 2 throwaway events applied. Eg. use `surfranker mcs -throw1` or `surfranker wcs -throw2`.
-Note: Results derive from four CS events and one QS event in 2021.
+* Calculate, sort & view the current Womens & Mens CS rankings with 1 or 2 throwaway events applied. Eg. use `surfranker mcs -throw1` or `surfranker wcs -throw2`.  Note: Results derive from four CS events and one QS event in 2021.
 
 ### Big Wave Tours (WBWT & MBWT)
 * View the current Womens & Mens BWT rankings by year using eg. `surfranker mbwt -2018` & `surfranker wbwt -2016`.
@@ -37,5 +36,5 @@ Note: Results derive from four CS events and one QS event in 2021.
 * View the current Womens & Mens LT rankings by year and region using eg. `surfranker wlt -2020 -int` & `surfranker mlt -2020 -eu`.
 * Supported years include 2011-2020 (Womens & Mens). 2012 omitted in the Mens.
 
-Supported regions include International (`-int`), Australia/Oceania (`-aus/oce`), Africa (`-af`), Asia (`-as`), Europe (`-eu`), Hawaii/Tahiti Nui (`-haw/tn`), North America (`-na`) & South America (`-sa`) where applicable.
+Supported regions include International (`-int`), Australia/Oceania (`-aus/oce`), Africa (`-af`), Asia (`-as`), Europe (`-eu`), Hawaii/Tahiti Nui (`-haw/tn`), North America (`-na`) & South America (`-sa`) where applicable.  
 All supported years and regions across individual tours can be seen [here](https://github.com/AltDom/surfranker-cli/blob/main/src/constants.js).
