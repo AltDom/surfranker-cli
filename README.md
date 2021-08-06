@@ -7,12 +7,12 @@
 
 Retrieve live **World Surf League** tour rankings for free via the terminal. **Championship Tours**, **Challenger Series**, **Big Wave Tours**, **Qualifying Series**, **Junior Tours** & **Longboard Tours** all supported. **Throwaway Event Filtering** supported where applicable.
 
-## Install
+## Installing surfranker-cli
 * Open your Terminal window and ensure you have Node.JS & NPM installed. Run `brew install node`.
 * Then install surfranker-cli with `npm install -g surfranker-cli`.
 * You should be all set and ready to use any of the commands below!
 
-## Using surfranker-cl
+## Using surfranker-cli
 ### Championship Tours (WCT & MCT)
 * View the current Womens & Mens CT rankings using commands `surfranker wct` & `surfranker mct`.
 * Calculate, sort & view the current Womens & Mens CT rankings with 1 or 2 throwaway events applied. Eg. use `surfranker wct -throw2` or `surfranker mct -throw1`.
