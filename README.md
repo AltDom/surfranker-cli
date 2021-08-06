@@ -6,9 +6,10 @@ Retrieve live **World Surf League** tour rankings for free via the Terminal. **C
 https://user-images.githubusercontent.com/48492083/128521067-e35f0cdc-8f28-4488-81c2-17c9696187ca.mov
 
 ## Installing surfranker-cli
-* Open your Terminal window and ensure you have Node.JS & NPM installed. Run `brew install node`.
-* Then install surfranker-cli with `npm install -g surfranker-cli`.
-* You should be all set and ready to use any of the commands below!
+* Open your Terminal or MS-DOS command window and ensure you have Node.JS & NPM (or yarn) installed. Run `node -v` to see if you have Node.JS.
+* If you don't have it, run `brew install node`.
+* Then install surfranker-cli with `npm install -g surfranker-cli`. If you prefer yarn, use `yarn global add surfranker-cli`.
+* You should now be all set and ready to use any of the commands below!
 
 ## Using surfranker-cli
 ### Championship Tours (WCT & MCT)
@@ -39,3 +40,10 @@ Note: Results derive from four CS events and one QS event in 2021.
 
 Supported regions include International (`-int`), Australia/Oceania (`-aus/oce`), Africa (`-af`), Asia (`-as`), Europe (`-eu`), Hawaii/Tahiti Nui (`-haw/tn`), North America (`-na`) & South America (`-sa`) where applicable.  
 All supported years and regions across individual tours can be seen [here](https://github.com/AltDom/surfranker-cli/blob/main/src/constants.js).
+
+## Upgrading surfranker-cli
+`npm upgrade surfranker-cli` or `yarn upgrade surfranker-cli --latest`.
+
+## Uninstalling surfranker-cli
+`npm uninstall -g surfranker-cli` or `yarn remove surfranker-cli`.
+You can then also remove Node.JS if you like with `brew uninstall node`.
