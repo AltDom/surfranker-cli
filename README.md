@@ -18,7 +18,8 @@ https://user-images.githubusercontent.com/48492083/128521067-e35f0cdc-8f28-4488-
 
 ### Challenger Series (WCS & MCS - supported in Version 2 after the first contest in September 2021)
 * View the current Womens & Mens CS rankings using commands `surfranker mcs` & `surfranker wcs`.
-* Calculate, sort & view the current Womens & Mens CS rankings with 1 or 2 throwaway events applied. Eg. use `surfranker mcs -throw1` or `surfranker wcs -throw2`.  Note: Results derive from four CS events and one QS event in 2021.
+* Calculate, sort & view the current Womens & Mens CS rankings with 1 or 2 throwaway events applied. Eg. use `surfranker mcs -throw1` or `surfranker wcs -throw2`.  
+Note: Results derive from four CS events and one QS event in 2021.
 
 ### Big Wave Tours (WBWT & MBWT)
 * View the current Womens & Mens BWT rankings by year using eg. `surfranker mbwt -2018` & `surfranker wbwt -2016`.
