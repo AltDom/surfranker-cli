@@ -1,14 +1,15 @@
 #!/usr/bin/env node
 'use strict';
 const fetchData = require('./fetchData');
-const { codePoints } = require('./constants');
+const { codePoints, messages } = require('./constants');
 const ora = require('ora');
 const chalk = require('chalk');
 // flag1 is a 4-digit year (eg. -2020) or number of throwaways (eg. -throw2). flag2 is region (eg. -aus/oce).
 const [, , tour, flag1, flag2] = process.argv;
 (async () => {
   const emoji = String.fromCodePoint(codePoints[Math.floor(Math.random() * codePoints.length)]);
-  const spinner = ora(`Collating surf brain... ${emoji}`).start();
+  const message = messages[Math.floor(Math.random() * messages.length)];
+  const spinner = ora(`${message} ${emoji}`).start();
   const response = await fetchData(tour, flag1, flag2);
   if (response.error) return spinner.fail(response.error);
   spinner.succeed();

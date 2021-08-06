@@ -176,5 +176,15 @@ module.exports = Object.freeze({
       ]
     }
   ],
-  codePoints: [0x1f9e0, 0x1f3c4, 0x1f30a, 0x1f4be, 0x1f4ad]
+  codePoints: [0x1f9e0, 0x1f3c4, 0x1f30a, 0x1f4be, 0x1f4ad, 0x1f489, 0x26d1],
+  messages: [
+    'Injecting the AstraZeneca...',
+    'Tuning into 5G...',
+    'Removing tin foil from Gath...',
+    'Waiting for scores...',
+    'Making surf rankings franker...',
+    'Conjuring the surf gods...',
+    '50-Year Storm approaching...',
+    'Bit of a lull...'
+  ]
 });

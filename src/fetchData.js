@@ -23,7 +23,9 @@ const fetchData = async (_tour, _flag1 = '', _flag2 = '') => {
           for (let i = 0, row; (row = athleteTable.rows[i]); i++) {
             const athleteRank = await row.querySelector('.athlete-rank').innerHTML;
             const athleteName = await row.querySelector('.athlete-name').innerHTML;
-            const athlete_points = await row.querySelector('.tour-points').innerHTML;
+            const athlete_points = await row
+              .querySelector('.tour-points')
+              .innerHTML.replace(/,/g, '');
             athleteArray.push(`${athleteRank}. ${athleteName} - ${athlete_points}pts`);
           }
           return { athleteArray };
