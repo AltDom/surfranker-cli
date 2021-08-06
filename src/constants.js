@@ -4,6 +4,10 @@ module.exports = Object.freeze({
   defaultNumberOfEventsToThrow: 0,
   championshipTours: ['mct', 'wct'],
   challengerSeries: ['mcs', 'wcs'],
+  qualifyingSeries: ['mqs', 'wqs'],
+  bigWaveTours: ['mbwt', 'wbwt'],
+  juniorTours: ['mjun', 'wjun'],
+  longboardTours: ['mlt', 'wlt'],
   regions: [
     {
       key: 'int',
@@ -176,7 +180,7 @@ module.exports = Object.freeze({
       ]
     }
   ],
-  codePoints: [0x1f9e0, 0x1f3c4, 0x1f30a, 0x1f4be, 0x1f4ad, 0x1f489, 0x26d1],
+  codePoints: [0x1f9e0, 0x1f3c4, 0x1f30a, 0x1f4be, 0x1f4ad, 0x1f489, 0x26d1, 0x1f913, 0x1f33d],
   messages: [
     'Injecting the AstraZeneca...',
     'Tuning into 5G...',
@@ -185,6 +189,9 @@ module.exports = Object.freeze({
     'Making surf rankings franker...',
     'Conjuring the surf gods...',
     '50-Year Storm approaching...',
-    'Bit of a lull...'
+    'Bit of a lull...',
+    'Scouring the ocean...',
+    'Waiting for the swell to set in...',
+    'Rinsing corn...'
   ]
 });

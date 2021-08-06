@@ -1,5 +1,5 @@
-# surfranker
-Making surf rankings franker.
+# surfranker-cli
+### Making surf rankings just that little bit franker.
 
 <p align="center">
   <img  src="https://media.giphy.com/media/LqaiJK6aYZPG11qKrz/giphy.gif" width="80%">
@@ -12,15 +12,16 @@ Retrieve live **World Surf League** tour rankings for free via the terminal. **C
 * Then install surfranker-cli with `npm install -g surfranker-cli`.
 * You should be all set and ready to use any of the commands below!
 
-## Using surfranker
+## Using surfranker-cl
 ### Championship Tours (WCT & MCT)
 * View the current Womens & Mens CT rankings using commands `surfranker wct` & `surfranker mct`.
 * Calculate, sort & view the current Womens & Mens CT rankings with 1 or 2 throwaway events applied. Eg. use `surfranker wct -throw2` or `surfranker mct -throw1`.
 * View the Womens & Mens CT rankings by year using eg. `surfranker wct -2017`. Supported years include 2010-2021 (Womens & Mens).
 
-### Challenger Series (WCS & MCS - supported after the first contest in September 2021)
+### Challenger Series (WCS & MCS - supported in Version 2 after the first contest in September 2021)
 * View the current Womens & Mens CS rankings using commands `surfranker mcs` & `surfranker wcs`.
-* Calculate, sort & view the current Womens & Mens CS rankings with 1 or 2 throwaway events applied. Eg. use `surfranker mcs -throw1` or `surfranker wcs -throw2`. Note: Results derive from four CS events and one QS event in 2021.
+* Calculate, sort & view the current Womens & Mens CS rankings with 1 or 2 throwaway events applied. Eg. use `surfranker mcs -throw1` or `surfranker wcs -throw2`.
+Note: Results derive from four CS events and one QS event in 2021.
 
 ### Big Wave Tours (WBWT & MBWT)
 * View the current Womens & Mens BWT rankings by year using eg. `surfranker mbwt -2018` & `surfranker wbwt -2016`.

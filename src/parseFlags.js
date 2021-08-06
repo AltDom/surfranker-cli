@@ -6,7 +6,11 @@ const {
   currentYear,
   defaultNumberOfEventsToThrow,
   championshipTours,
-  challengerSeries
+  challengerSeries,
+  qualifyingSeries,
+  bigWaveTours,
+  juniorTours,
+  longboardTours
 } = require('./constants');
 const parseFlags = (_tour, _flag1, _flag2) => {
   let _year, _numberOfEventsToThrow, _regionID;
@@ -40,8 +44,35 @@ const parseFlags = (_tour, _flag1, _flag2) => {
     _regionID = getRegionID(_flag2.substring(1));
   else return { error: "You're likely using a wrong region acronym." };
   // Specific conditionals
-  // All tours
+  // Qualifying Series
   if (
+    qualifyingSeries.includes(_tour) &&
+    _year === 2021 &&
+    (_regionID === '' || _regionID === regions[0].id)
+  )
+    return {
+      error:
+        'No International Qualifying Series rankings after 2020 (due to the Challenger Series). Specify another region or year.'
+    };
+  // Big Wave Tours
+  else if (bigWaveTours.includes(_tour) && _year === 2021)
+    return { error: 'No Big Wave Tour rankings available after 2018.' };
+  // Junior Tours
+  else if (
+    juniorTours.includes(_tour) &&
+    _year === 2021 &&
+    (_regionID === '' || _regionID === regions[0].id)
+  )
+    return {
+      error: 'No International Junior Tour rankings available after 2019. Try a specific region.'
+    };
+  // Longboard Tours
+  else if (longboardTours.includes(_tour) && _year === 2021)
+    return {
+      error: 'No Longboard Tour rankings available after 2020. Specify another year or region.'
+    };
+  // All tours
+  else if (
     !tours
       .filter((tour) => !championshipTours.concat(challengerSeries).includes(tour.id))
       .every((tour) => tour.id !== _tour) &&
@@ -74,7 +105,7 @@ const parseFlags = (_tour, _flag1, _flag2) => {
   else if (challengerSeries.includes(_tour) && _year !== currentYear)
     return { error: 'The Challenger Series was introduced in 2021.' };
   else if (challengerSeries.includes(_tour) && _year === currentYear)
-    return { error: 'The Challenger Series will begin in September.' };
+    return { error: 'The Challenger Series will begin in September 2021.' };
   else
     return {
       tour: _tour,
