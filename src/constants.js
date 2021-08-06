@@ -180,18 +180,23 @@ module.exports = Object.freeze({
       ]
     }
   ],
-  codePoints: [0x1f9e0, 0x1f3c4, 0x1f30a, 0x1f4be, 0x1f4ad, 0x1f489, 0x26d1, 0x1f913, 0x1f33d],
+  codePoints: [
+    0x1f9e0, 0x1f3c4, 0x1f30a, 0x1f4be, 0x1f4ad, 0x1f489, 0x26d1, 0x1f913, 0x1f33d, 0x1f4fc, 0x1f37f
+  ],
   messages: [
     'Injecting the AstraZeneca...',
     'Tuning into 5G...',
-    'Removing tin foil from Gath...',
+    'Removing tin foil from the Gath...',
     'Waiting for scores...',
     'Making surf rankings franker...',
     'Conjuring the surf gods...',
     '50-Year Storm approaching...',
     'Bit of a lull...',
     'Scouring the ocean...',
-    'Waiting for the swell to set in...',
-    'Rinsing corn...'
+    'Expecting the swell to pick up...',
+    'Waiting for the tide to drop...',
+    'Rinsing corn...',
+    'Arguing about 360 & 540 rotations...',
+    'Dreaming of waves of mortal cone-equence...'
   ]
 });

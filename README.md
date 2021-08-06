@@ -5,7 +5,7 @@
   <img  src="https://media.giphy.com/media/LqaiJK6aYZPG11qKrz/giphy.gif" width="80%">
 </p>
 
-Retrieve live **World Surf League** tour rankings for free via the terminal. **Championship Tours**, **Challenger Series**, **Big Wave Tours**, **Qualifying Series**, **Junior Tours** & **Longboard Tours** all supported. **Throwaway Event Filtering** supported where applicable.
+Retrieve live **World Surf League** tour rankings for free via the Terminal. **Championship Tours**, **Challenger Series**, **Big Wave Tours**, **Qualifying Series**, **Junior Tours** & **Longboard Tours** all supported. **Throwaway Event Filtering** supported where applicable.
 
 ## Installing surfranker-cli
 * Open your Terminal window and ensure you have Node.JS & NPM installed. Run `brew install node`.
