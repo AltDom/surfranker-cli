@@ -20,14 +20,14 @@ const [, , tour, flag1, flag2] = process.argv;
           console.log(athlete);
         else if (
           response.throwaways &&
-          athlete.substring(0, athlete.indexOf('.')) <
-            athlete.substring(athlete.indexOf('(') + 1, athlete.indexOf(')'))
+          parseInt(athlete.substring(0, athlete.indexOf('.'))) <
+            parseInt(athlete.substring(athlete.indexOf('(') + 1, athlete.indexOf(')')))
         )
           console.log(chalk.red(athlete));
         else if (
           response.throwaways &&
-          athlete.substring(0, athlete.indexOf('.')) >
-            athlete.substring(athlete.indexOf('(') + 1, athlete.indexOf(')'))
+          parseInt(athlete.substring(0, athlete.indexOf('.'))) >
+            parseInt(athlete.substring(athlete.indexOf('(') + 1, athlete.indexOf(')')))
         )
           console.log(chalk.blue(athlete));
         else console.log(athlete);
