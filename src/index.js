@@ -23,13 +23,13 @@ const [, , tour, flag1, flag2] = process.argv;
           parseInt(athlete.substring(0, athlete.indexOf('.'))) <
             parseInt(athlete.substring(athlete.indexOf('(') + 1, athlete.indexOf(')')))
         )
-          console.log(chalk.red(athlete));
+          console.log(chalk.green(athlete));
         else if (
           response.throwaways &&
           parseInt(athlete.substring(0, athlete.indexOf('.'))) >
             parseInt(athlete.substring(athlete.indexOf('(') + 1, athlete.indexOf(')')))
         )
-          console.log(chalk.blue(athlete));
+          console.log(chalk.red(athlete));
         else console.log(athlete);
       } else console.log(chalk.yellow(athlete));
     });
