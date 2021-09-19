@@ -14,6 +14,7 @@ const {
 } = require('./constants');
 const parseFlags = (_tour, _flag1, _flag2) => {
   let _year, _numberOfEventsToThrow, _regionID;
+  let _top5 = false;
   // _tour parsing
   if (!tours.map((tour) => tour.id).includes(_tour))
     return { error: "You're likely using a wrong tour acronym." };
@@ -30,6 +31,15 @@ const parseFlags = (_tour, _flag1, _flag2) => {
   ) {
     _year = currentYear;
     _numberOfEventsToThrow = parseInt(_flag1.substring(6));
+  } else if (_flag1 === '-top5') {
+    _year = currentYear;
+    _numberOfEventsToThrow = defaultNumberOfEventsToThrow;
+    if(_flag2 !== '') {
+      return {
+        error: 'That is not a valid command.'
+      };
+
+    } else _flag2 = _flag1;
   } else
     return {
       error: 'Your year or throwaway query looks wrong.'
@@ -42,6 +52,7 @@ const parseFlags = (_tour, _flag1, _flag2) => {
     getRegionID(_flag2.substring(1)) !== null
   )
     _regionID = getRegionID(_flag2.substring(1));
+  else if (_flag2.includes('-top5') && _flag2.length === 5) { _top5 = true; _regionID = ''; }
   else return { error: "You're likely using a wrong region acronym." };
   // Specific conditionals
   // Qualifying Series
@@ -95,7 +106,6 @@ const parseFlags = (_tour, _flag1, _flag2) => {
     return { error: 'No Championship Tour contests ran that year due to Covid19.' };
   else if (
     championshipTours.includes(_tour) &&
-    _year !== currentYear &&
     _numberOfEventsToThrow !== 0
   )
     return {
@@ -112,6 +122,7 @@ const parseFlags = (_tour, _flag1, _flag2) => {
       year: _year,
       numberOfEventsToThrow: _numberOfEventsToThrow,
       region: _regionID,
+      top5: _top5,
       error: null
     };
 };

@@ -14,12 +14,13 @@ https://user-images.githubusercontent.com/48492083/128521067-e35f0cdc-8f28-4488-
 ## Using surfranker-cli
 ### Championship Tours (WCT & MCT)
 * View the current Womens & Mens CT rankings using commands `surfranker wct` & `surfranker mct`.
+* View the Womens & Mens CT top 5 final placings by year using commands `surfranker wct -top5` & `surfranker mct -2021 -top5`.
 * Calculate, sort & view the current Womens & Mens CT rankings with 1 or 2 throwaway events applied. Eg. use `surfranker wct -throw2` or `surfranker mct -throw1`.
 * View the Womens & Mens CT rankings by year using eg. `surfranker wct -2017`. Supported years include 2010-2021 (Womens & Mens).
 
 ### Challenger Series (WCS & MCS - supported in Version 2 after the first contest in September 2021)
 * View the current Womens & Mens CS rankings using commands `surfranker mcs` & `surfranker wcs`.
-* Calculate, sort & view the current Womens & Mens CS rankings with 1 or 2 throwaway events applied. Eg. use `surfranker mcs -throw1` or `surfranker wcs -throw2`.  
+* Calculate, sort & view the current Womens & Mens CS rankings with 1 or 2 throwaway events applied. Eg. use `surfranker mcs -throw1` or `surfranker wcs -throw2`.
 Note: Results will come from four CS events and one QS event in 2021.
 
 ### Big Wave Tours (WBWT & MBWT)
@@ -38,7 +39,7 @@ Note: Results will come from four CS events and one QS event in 2021.
 * View the current Womens & Mens LT rankings by year and region using eg. `surfranker wlt -2020 -int` & `surfranker mlt -2020 -eu`.
 * Supported years include 2011-2020 (Womens & Mens). 2012 omitted in the Mens.
 
-Supported regions include International (`-int`), Australia/Oceania (`-aus/oce`), Africa (`-af`), Asia (`-as`), Europe (`-eu`), Hawaii/Tahiti Nui (`-haw/tn`), North America (`-na`) & South America (`-sa`) where applicable.  
+Supported regions include International (`-int`), Australia/Oceania (`-aus/oce`), Africa (`-af`), Asia (`-as`), Europe (`-eu`), Hawaii/Tahiti Nui (`-haw/tn`), North America (`-na`) & South America (`-sa`) where applicable.
 All supported years and regions across individual tours can be seen [here](https://github.com/AltDom/surfranker-cli/blob/main/src/constants.js).
 
 ## Upgrading surfranker-cli
