@@ -1,6 +1,6 @@
 'use strict';
 module.exports = Object.freeze({
-  currentYear: 2021,
+  currentYear: 2022,
   defaultNumberOfEventsToThrow: 0,
   championshipTours: ['mct', 'wct'],
   challengerSeries: ['mcs', 'wcs'],
@@ -26,6 +26,7 @@ module.exports = Object.freeze({
       id: 'mct',
       name: 'Mens Championship Tour',
       years: [
+        { year: 2022 },
         { year: 2021 },
         { year: 2020 },
         { year: 2019 },
@@ -44,6 +45,7 @@ module.exports = Object.freeze({
       id: 'wct',
       name: 'Womens Championship Tour',
       years: [
+        { year: 2022 },
         { year: 2021 },
         { year: 2020 },
         { year: 2019 },
@@ -61,16 +63,17 @@ module.exports = Object.freeze({
     {
       id: 'mcs',
       name: 'Mens Challenger Series',
-      years: [{ year: 2021 }]
+      years: [{ year: 2022 }, { year: 2021 }]
     },
     {
       id: 'wcs',
       name: 'Womens Challenger Series',
-      years: [{ year: 2021 }]
+      years: [{ year: 2022 }, { year: 2021 }]
     },
     {
       id: 'mqs',
       years: [
+        { year: 2022, regions: ['af', 'as', 'aus/oce', 'eu', 'haw/tn', 'na', 'sa'] },
         { year: 2021, regions: ['af', 'as', 'aus/oce', 'eu', 'haw/tn', 'na', 'sa'] },
         { year: 2020, regions: ['int', 'af', 'as', 'aus/oce', 'eu', 'haw/tn', 'na', 'sa'] },
         { year: 2019, regions: ['int', 'af', 'as', 'aus/oce', 'eu', 'haw/tn', 'na', 'sa'] },
@@ -87,6 +90,7 @@ module.exports = Object.freeze({
     {
       id: 'wqs',
       years: [
+        { year: 2022, regions: ['af', 'as', 'aus/oce', 'eu', 'haw/tn', 'na', 'sa'] },
         { year: 2021, regions: ['af', 'as', 'aus/oce', 'eu', 'haw/tn', 'na', 'sa'] },
         { year: 2020, regions: ['int', 'as', 'aus/oce', 'eu', 'haw/tn', 'na'] },
         { year: 2019, regions: ['int', 'af', 'as', 'aus/oce', 'eu', 'haw/tn', 'na', 'sa'] },
@@ -123,7 +127,8 @@ module.exports = Object.freeze({
     {
       id: 'mjun',
       years: [
-        { year: 2021, regions: ['aus/oce', 'eu'] },
+        { year: 2022, regions: ['af', 'sa'] },
+        { year: 2021, regions: ['aus/oce', 'eu', 'sa'] },
         { year: 2020, regions: ['aus/oce', 'eu', 'haw/tn', 'na'] },
         { year: 2019, regions: ['int', 'af', 'as', 'aus/oce', 'eu', 'haw/tn', 'na', 'sa'] },
         { year: 2018, regions: ['int', 'af', 'as', 'aus/oce', 'eu', 'haw/tn', 'na', 'sa'] },
@@ -138,7 +143,8 @@ module.exports = Object.freeze({
     {
       id: 'wjun',
       years: [
-        { year: 2021, regions: ['aus/oce', 'eu'] },
+        { year: 2022, regions: ['af', 'sa'] },
+        { year: 2021, regions: ['aus/oce', 'eu', 'sa'] },
         { year: 2020, regions: ['aus/oce', 'eu', 'haw/tn', 'na'] },
         { year: 2019, regions: ['int', 'af', 'as', 'aus/oce', 'eu', 'haw/tn', 'na', 'sa'] },
         { year: 2018, regions: ['int', 'af', 'as', 'aus/oce', 'eu', 'haw/tn', 'na', 'sa'] },
@@ -153,6 +159,7 @@ module.exports = Object.freeze({
     {
       id: 'mlt',
       years: [
+        { year: 2021, regions: ['int', 'sa'] },
         { year: 2020, regions: ['int', 'eu'] },
         { year: 2019, regions: ['int', 'aus/oce', 'eu', 'na', 'sa'] },
         { year: 2018, regions: ['int', 'af', 'aus/oce', 'eu', 'na'] },
@@ -167,6 +174,7 @@ module.exports = Object.freeze({
     {
       id: 'wlt',
       years: [
+        { year: 2021, regions: ['int', 'sa'] },
         { year: 2020, regions: ['int', 'eu'] },
         { year: 2019, regions: ['int', 'eu', 'na', 'sa'] },
         { year: 2018, regions: ['int', 'af', 'aus/oce', 'eu', 'na'] },

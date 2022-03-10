@@ -16,112 +16,110 @@ const fetchData = async (_tour, _flag1 = '', _flag2 = '') => {
     );
     const response = await page.evaluate(
       async (numberOfEventsToThrow = queryData.numberOfEventsToThrow, top5 = queryData.top5) => {
-        const athleteArray = [];
-        if(top5) {
-          const finalsResults = document.querySelector('.athletes-tour-group-intro__description').innerHTML.split('<br>');
-          if(!finalsResults) return { error: 'No data is available using that query.' };
-          else {
-            for (let i = 1; i< finalsResults.length-2; i++) {
-            athleteArray.push(finalsResults[i].trim().replace(finalsResults[i].trim().substring(3,5),'.').substring(2));
-            }
-            return { athleteArray };
+        let athleteArray = [];
+        const athleteTable = document.querySelector('.table-wrap--athletes tbody');
+        console.log(athleteTable);
+        if (!athleteTable) return { error: 'No data is available using that query.' };
+        else if (numberOfEventsToThrow === 0) {
+          for (let i = 0, row; (row = athleteTable.rows[i]); i++) {
+            if (row.classList.contains('cut-off-row')) continue;
+            const athleteRank = await row.querySelector('.athlete-rank').innerHTML;
+            const athleteName = await row.querySelector('.athlete-name').innerHTML;
+            const athlete_points = await row
+              .querySelector('.tour-points')
+              .innerHTML.replace(/,/g, '');
+            athleteArray.push(`${athleteRank}. ${athleteName} - ${athlete_points}pts`);
           }
+          if (top5) athleteArray = athleteArray.slice(0, 5);
+          return { athleteArray };
         } else {
-
-          const athleteTable = document.querySelector('.table-wrap--athletes tbody');
-          if (!athleteTable) return { error: 'No data is available using that query.' };
-          else if (numberOfEventsToThrow === 0) {
-            for (let i = 0, row; (row = athleteTable.rows[i]); i++) {
-              if(row.classList.contains('cut-off-row')) continue;
-              const athleteRank = await row.querySelector('.athlete-rank').innerHTML;
-              const athleteName = await row.querySelector('.athlete-name').innerHTML;
-              const athlete_points = await row
-                .querySelector('.tour-points')
-                .innerHTML.replace(/,/g, '');
-              athleteArray.push(`${athleteRank}. ${athleteName} - ${athlete_points}pts`);
+          // const table_head = document.querySelector('.table-wrap--athletes thead');
+          const table_body = document.querySelector('.table-wrap--athletes tbody').firstChild;
+          const numCompletedEvents = table_body.querySelectorAll(
+            '.athlete-event-place span.tooltipstered'
+          ).length; // change after midyear cut. I used a-tags from thead earlier instead of spans from tbody with firstchild
+          const numEvents = 5; // change after midyear cut
+          // const numEvents = table_head.querySelectorAll('.athlete-event-place').length;
+          const numEventsRemaining = numEvents - numCompletedEvents;
+          for (let i = 0, row; (row = athleteTable.rows[i]); i++) {
+            let athleteEventPointsArray = [];
+            let numEventsAthleteMissedAndRemaining = 0;
+            let athleteTotalPoints;
+            if (row.classList.contains('cut-off-row')) continue;
+            const athleteRank = await row.querySelector('.athlete-rank').innerHTML;
+            const athleteName = await row.querySelector('.athlete-name').innerHTML;
+            const athleteTourPoints = await row.querySelector('.tour-points').innerHTML;
+            const athleteEventPlaces = await Array.from(
+              row.querySelectorAll('.athlete-event-place')
+            ).slice(0, 5);
+            await athleteEventPlaces.forEach((possiblePoints) => {
+              const eventPoints = possiblePoints.querySelector('span').innerHTML.replace(/,/g, '');
+              if (eventPoints === '-') numEventsAthleteMissedAndRemaining++;
+              else athleteEventPointsArray.push(parseInt(eventPoints));
+            });
+            if (numEventsAthleteMissedAndRemaining - numEventsRemaining >= numberOfEventsToThrow)
+              athleteTotalPoints = athleteTourPoints.replace(/,/g, '');
+            else {
+              athleteEventPointsArray
+                .sort((a, b) => b - a)
+                .splice(
+                  athleteEventPointsArray.length - numberOfEventsToThrow,
+                  numberOfEventsToThrow
+                );
+              athleteTotalPoints = athleteEventPointsArray.reduce((a, b) => a + b);
             }
-            return { athleteArray };
-          } else {
-            const table_head = document.querySelector('.table-wrap--athletes thead');
-            const numCompletedEvents = table_head.querySelectorAll('.athlete-event-place a').length;
-            const numEvents = table_head.querySelectorAll('.athlete-event-place').length;
-            const numEventsRemaining = numEvents - numCompletedEvents;
-            for (let i = 0, row; (row = athleteTable.rows[i]); i++) {
-              let athleteEventPointsArray = [];
-              let numEventsAthleteMissedAndRemaining = 0;
-              let athleteTotalPoints;
-              const athleteRank = await row.querySelector('.athlete-rank').innerHTML;
-              const athleteName = await row.querySelector('.athlete-name').innerHTML;
-              const athleteTourPoints = await row.querySelector('.tour-points').innerHTML;
-              const athleteEventPlaces = await row.querySelectorAll('.athlete-event-place');
-              await athleteEventPlaces.forEach((possiblePoints) => {
-                const eventPoints = possiblePoints.querySelector('span').innerHTML.replace(/,/g, '');
-                if (eventPoints === '-') numEventsAthleteMissedAndRemaining++;
-                else athleteEventPointsArray.push(parseInt(eventPoints));
-              });
-              if (numEventsAthleteMissedAndRemaining - numEventsRemaining >= numberOfEventsToThrow)
-                athleteTotalPoints = athleteTourPoints.replace(/,/g, '');
-              else {
-                athleteEventPointsArray
-                  .sort((a, b) => b - a)
-                  .splice(
-                    athleteEventPointsArray.length - numberOfEventsToThrow,
-                    numberOfEventsToThrow
-                  );
-                athleteTotalPoints = athleteEventPointsArray.reduce((a, b) => a + b);
-              }
-              athleteArray.push(`${athleteRank}. ${athleteName} - ${athleteTotalPoints}pts`);
-            }
-            athleteArray
-              .sort(
-                (a, b) =>
-                  b.substring(b.lastIndexOf(' ') + 1, b.lastIndexOf('pts')) -
-                  a.substring(a.lastIndexOf(' ') + 1, a.lastIndexOf('pts'))
-              )
-              .forEach((athlete, index, array) => {
-                if (index !== 0) {
-                  if (
-                    athlete.substring(athlete.indexOf('-') + 1, athlete.lastIndexOf('pts')) ===
-                    athleteArray[index - 1].substring(
-                      athleteArray[index - 1].indexOf('-') + 1,
-                      athleteArray[index - 1].lastIndexOf('pts')
-                    )
-                  ) {
-                    array[index] = `${athleteArray[index - 1].substring(
-                      0,
-                      athleteArray[index - 1].indexOf('.')
-                    )}${athlete.substring(
-                      athlete.indexOf('.'),
-                      Array.from(athlete).length
-                    )} (${athlete.substring(0, athlete.indexOf('.'))})`;
-                  } else if (parseInt(athlete.substring(0, athlete.indexOf('.'))) !== index + 1) {
-                    array[index] = `${index + 1}${athlete.substring(
-                      athlete.indexOf('.'),
-                      Array.from(athlete).length
-                    )} (${athlete.substring(0, athlete.indexOf('.'))})`;
-                  }
-                } else {
-                  if (athlete.substring(0, athlete.indexOf('.')) != '1') {
-                    array[index] = `1${athlete.substring(
-                      athlete.indexOf('.'),
-                      Array.from(athlete).length
-                    )} (${athlete.substring(0, athlete.indexOf('.'))})`;
-                  }
+            athleteArray.push(`${athleteRank}. ${athleteName} - ${athleteTotalPoints}pts`);
+          }
+          athleteArray
+            .sort(
+              (a, b) =>
+                b.substring(b.lastIndexOf(' ') + 1, b.lastIndexOf('pts')) -
+                a.substring(a.lastIndexOf(' ') + 1, a.lastIndexOf('pts'))
+            )
+            .forEach((athlete, index, array) => {
+              if (index !== 0) {
+                if (
+                  athlete.substring(athlete.indexOf('-') + 1, athlete.lastIndexOf('pts')) ===
+                  athleteArray[index - 1].substring(
+                    athleteArray[index - 1].indexOf('-') + 1,
+                    athleteArray[index - 1].lastIndexOf('pts')
+                  )
+                ) {
+                  array[index] = `${athleteArray[index - 1].substring(
+                    0,
+                    athleteArray[index - 1].indexOf('.')
+                  )}${athlete.substring(
+                    athlete.indexOf('.'),
+                    Array.from(athlete).length
+                  )} (${athlete.substring(0, athlete.indexOf('.'))})`;
+                } else if (parseInt(athlete.substring(0, athlete.indexOf('.'))) !== index + 1) {
+                  array[index] = `${index + 1}${athlete.substring(
+                    athlete.indexOf('.'),
+                    Array.from(athlete).length
+                  )} (${athlete.substring(0, athlete.indexOf('.'))})`;
                 }
-              });
-            athleteArray.forEach((athlete, index, array) => {
-              if (
-                athlete.substring(0, athlete.indexOf('.')) ===
-                athlete.substring(athlete.indexOf('(') + 1, athlete.indexOf(')'))
-              ) {
-                array[index] = `${athlete.substring(0, athlete.indexOf(athlete.slice(-4)))}`;
+              } else {
+                if (athlete.substring(0, athlete.indexOf('.')) != '1') {
+                  array[index] = `1${athlete.substring(
+                    athlete.indexOf('.'),
+                    Array.from(athlete).length
+                  )} (${athlete.substring(0, athlete.indexOf('.'))})`;
+                }
               }
             });
-            return { athleteArray };
-          }
+          athleteArray.forEach((athlete, index, array) => {
+            if (
+              athlete.substring(0, athlete.indexOf('.')) ===
+              athlete.substring(athlete.indexOf('(') + 1, athlete.indexOf(')'))
+            ) {
+              array[index] = `${athlete.substring(0, athlete.indexOf(athlete.slice(-4)))}`;
+            }
+          });
+          return { athleteArray };
         }
       },
-      queryData.numberOfEventsToThrow, queryData.top5
+      queryData.numberOfEventsToThrow,
+      queryData.top5
     );
     await browser.close();
     return {

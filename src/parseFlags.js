@@ -34,11 +34,10 @@ const parseFlags = (_tour, _flag1, _flag2) => {
   } else if (_flag1 === '-top5') {
     _year = currentYear;
     _numberOfEventsToThrow = defaultNumberOfEventsToThrow;
-    if(_flag2 !== '') {
+    if (_flag2 !== '') {
       return {
         error: 'That is not a valid command.'
       };
-
     } else _flag2 = _flag1;
   } else
     return {
@@ -52,8 +51,10 @@ const parseFlags = (_tour, _flag1, _flag2) => {
     getRegionID(_flag2.substring(1)) !== null
   )
     _regionID = getRegionID(_flag2.substring(1));
-  else if (_flag2.includes('-top5') && _flag2.length === 5) { _top5 = true; _regionID = ''; }
-  else return { error: "You're likely using a wrong region acronym." };
+  else if (_flag2.includes('-top5') && _flag2.length === 5) {
+    _top5 = true;
+    _regionID = '';
+  } else return { error: "You're likely using a wrong region acronym." };
   // Specific conditionals
   // Qualifying Series
   if (
@@ -71,16 +72,16 @@ const parseFlags = (_tour, _flag1, _flag2) => {
   // Junior Tours
   else if (
     juniorTours.includes(_tour) &&
-    _year === 2021 &&
+    _year > currentYear &&
     (_regionID === '' || _regionID === regions[0].id)
   )
     return {
       error: 'No International Junior Tour rankings available after 2019. Try a specific region.'
     };
   // Longboard Tours
-  else if (longboardTours.includes(_tour) && _year === 2021)
+  else if (longboardTours.includes(_tour) && _year >= currentYear)
     return {
-      error: 'No Longboard Tour rankings available after 2020. Specify another year or region.'
+      error: 'No Longboard Tour rankings available after 2021. Specify another year or region.'
     };
   // All tours
   else if (
@@ -97,25 +98,31 @@ const parseFlags = (_tour, _flag1, _flag2) => {
   else if (
     tours
       .filter((tour) => tour.id === _tour)
-      .every((tour) => tour.years.every((item) => item.regions === undefined)) &&
+      .every((tour) =>
+        tour.years
+          .filter((item) => item.year === _year)
+          .every((year) => year.regions && !year.regions.includes(_flag2.substring(1)))
+      ) &&
     _regionID !== ''
   )
     return { error: `There are no continental regions for that tour.` };
   // Championship Tours
   else if (championshipTours.includes(_tour) && _year === 2020)
     return { error: 'No Championship Tour contests ran that year due to Covid19.' };
-  else if (
-    championshipTours.includes(_tour) &&
-    _numberOfEventsToThrow !== 0
-  )
+  else if (championshipTours.includes(_tour) && _numberOfEventsToThrow !== 0 && _year < currentYear)
     return {
       error: 'Throwaways are already factored into the rankings for that year.'
     };
+  else if (championshipTours.includes(_tour) && _numberOfEventsToThrow === 2)
+    // review after the midyear cut
+    return {
+      error: 'Only one throwaway will be applied prior to the midyear cut.'
+    };
   // Challenger Series
-  else if (challengerSeries.includes(_tour) && _year !== currentYear)
-    return { error: 'The Challenger Series was introduced in 2021.' };
   else if (challengerSeries.includes(_tour) && _year === currentYear)
-    return { error: 'The Challenger Series will begin in September 2021.' };
+    return {
+      error: 'The Challenger Series will begin in May 2022. Results are available for 2021.'
+    };
   else
     return {
       tour: _tour,
