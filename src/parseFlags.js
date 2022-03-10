@@ -116,7 +116,8 @@ const parseFlags = (_tour, _flag1, _flag2) => {
   else if (championshipTours.includes(_tour) && _numberOfEventsToThrow === 2)
     // review after the midyear cut
     return {
-      error: 'Only one throwaway will be applied prior to the midyear cut.'
+      error:
+        'Only one throwaway to be applied prior to the midyear cut. See rules 1.09(c) & 1.10(c).'
     };
   // Challenger Series
   else if (challengerSeries.includes(_tour) && _year === currentYear)
